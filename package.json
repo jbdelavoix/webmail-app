@@ -1,12 +1,12 @@
 {
-  "name": "gmail-app",
-  "productName": "Gmail",
+  "name": "mail-app",
+  "productName": "Mail",
   "version": "1.0.9",
-  "description": "A desktop application for Gmail",
+  "description": "A desktop application for mails, built with Electron.",
   "author": "jbdelavoix <jbdelavoix@users.noreply.github.com> (https://github.com/jbdelavoix)",
-  "homepage": "https://github.com/jbdelavoix/gmail-app",
+  "homepage": "https://github.com/jbdelavoix/mail-app",
   "license": "MIT",
-  "main": "src/app.js",
+  "main": "src/main.js",
   "scripts": {
     "test": "echo 'no tests implemented'",
     "dist": "electron-builder --macos --linux --windows --publish never"
@@ -21,14 +21,14 @@
       "**/*",
       "build/**/*"
     ],
-    "appId": "jbdelavoix.gmail-app",
+    "appId": "jbdelavoix.mail-app",
     "mac": {
       "target": {
         "target": "default",
         "arch": "universal"
       },
       "category": "public.app-category.productivity",
-      "darkModeSupport": false
+      "darkModeSupport": true
     },
     "linux": {
       "target": [

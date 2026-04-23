@@ -1,9 +1,19 @@
-#gb {
-    background: rgba(16, 16, 16, 0.30) !important;
+#accounts-list {
+  overflow: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-#gb > div:first-child {
-    height: 20px;
-    -webkit-user-select: none;
-    -webkit-app-region: drag;
+#accounts-list::-webkit-scrollbar {
+  display: none;
+}
+
+:root {
+  --btn-bg: #1e293b;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --btn-bg: #e2e8f0;
+  }
 }
