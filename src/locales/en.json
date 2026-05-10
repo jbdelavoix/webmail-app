@@ -1,0 +1,68 @@
+{
+  "providers": {
+    "gmail": { "name": "Gmail" },
+    "outlook": { "name": "Outlook" },
+    "icloud": { "name": "iCloud Mail" },
+    "yahoo": { "name": "Yahoo Mail" }
+  },
+  "app": {
+    "customAccountFallbackName": "Custom account"
+  },
+  "menu": {
+    "learnMore": "Learn More",
+    "advanced": "Advanced"
+  },
+  "ui": {
+    "settingsTooltip": "Settings",
+    "idPrefix": "ID",
+    "mailTablistLabel": "Mailboxes",
+    "unreadAbbrev": "{n} unread"
+  },
+  "settings": {
+    "accounts": "Accounts",
+    "add": "Add",
+    "addAccountTitle": "Add account",
+    "customAccountCardTitle": "Custom account",
+    "customAccountCardSubtitle": "Add your own webmail URL",
+    "customAccountHeading": "Custom account",
+    "accountName": "Account name",
+    "accountNamePlaceholder": "My mail account",
+    "url": "URL",
+    "urlPlaceholder": "https://…",
+    "iconLabel": "Icon (Iconify id)",
+    "iconHint": "e.g. mdi:email, simple-icons:gmail, mdi:account…",
+    "color": "Color",
+    "create": "Create",
+    "back": "Back",
+    "missingNameOrUrlAlert": "Please enter both account name and URL.",
+    "settingsTitle": "Settings",
+    "customDisplayName": "Custom display name",
+    "customDisplayNameHint": "Leave empty to use the default name.",
+    "resetColor": "Reset",
+    "customUrl": "Custom URL",
+    "customUrlPlaceholder": "https://…",
+    "customUrlHintNoUrl": "Leave empty for default URL.",
+    "customUrlHintWithUrl": "Leave empty for default URL: {url}.",
+    "deleteAccount": "Delete this account",
+    "confirmDelete": "Delete this account? This cannot be undone.",
+    "unknownProvider": "This account references an unknown provider (ID {id}).",
+    "generalSectionTitle": "General",
+    "languageSection": "Language",
+    "languageFollowSystem": "Use system preference",
+    "languageEnglish": "English",
+    "languageGerman": "Deutsch",
+    "languageFrench": "Français",
+    "languageSpanish": "Español",
+    "languageAppliedHint": "The window refreshes automatically when you change this.",
+    "shellSidebarLabel": "Accounts and sidebar",
+    "appearanceSection": "Appearance",
+    "appearanceFollowSystem": "Match system",
+    "appearanceLight": "Light",
+    "appearanceDark": "Dark",
+    "appearanceAppliedHint": "Takes effect immediately in this window.",
+    "tabBarPositionSection": "Mailbox bar",
+    "tabBarTop": "Top",
+    "tabBarSide": "Side",
+    "tabBarHint": "Only one mailbox strip is shown: tabs across the top or a column beside the mail pane — not both."
+  }
+}

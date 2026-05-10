@@ -1,0 +1,68 @@
+{
+  "providers": {
+    "gmail": { "name": "Gmail" },
+    "outlook": { "name": "Outlook" },
+    "icloud": { "name": "Courrier iCloud" },
+    "yahoo": { "name": "Yahoo Mail" }
+  },
+  "app": {
+    "customAccountFallbackName": "Compte personnalisé"
+  },
+  "menu": {
+    "learnMore": "En savoir plus",
+    "advanced": "Avancé"
+  },
+  "ui": {
+    "settingsTooltip": "Paramètres",
+    "idPrefix": "ID",
+    "mailTablistLabel": "Boîtes mail",
+    "unreadAbbrev": "{n} non lus"
+  },
+  "settings": {
+    "accounts": "Comptes",
+    "add": "Ajouter",
+    "addAccountTitle": "Ajouter un compte",
+    "customAccountCardTitle": "Compte personnalisé",
+    "customAccountCardSubtitle": "Ajouter votre propre webmail",
+    "customAccountHeading": "Compte personnalisé",
+    "accountName": "Nom du compte",
+    "accountNamePlaceholder": "Mon compte mail",
+    "url": "URL",
+    "urlPlaceholder": "https://…",
+    "iconLabel": "Icône (code Iconify)",
+    "iconHint": "Ex. : mdi:email, simple-icons:gmail, mdi:account…",
+    "color": "Couleur",
+    "create": "Créer",
+    "back": "Retour",
+    "missingNameOrUrlAlert": "Veuillez remplir le nom et l’URL.",
+    "settingsTitle": "Paramètres",
+    "customDisplayName": "Nom personnalisé",
+    "customDisplayNameHint": "Laissez vide pour utiliser le nom par défaut.",
+    "resetColor": "Réinitialiser",
+    "customUrl": "URL personnalisée",
+    "customUrlPlaceholder": "https://…",
+    "customUrlHintNoUrl": "Laissez vide pour l’URL par défaut.",
+    "customUrlHintWithUrl": "Laissez vide pour l’URL par défaut : {url}",
+    "deleteAccount": "Supprimer ce compte",
+    "confirmDelete": "Supprimer définitivement ce compte ?",
+    "unknownProvider": "Ce compte référence un fournisseur inconnu (ID {id}).",
+    "generalSectionTitle": "Général",
+    "languageSection": "Langue",
+    "languageFollowSystem": "Suivre les réglages du système",
+    "languageEnglish": "English",
+    "languageGerman": "Deutsch",
+    "languageFrench": "Français",
+    "languageSpanish": "Español",
+    "languageAppliedHint": "La fenêtre se recharge automatiquement après le changement.",
+    "shellSidebarLabel": "Comptes et barre latérale",
+    "appearanceSection": "Apparence",
+    "appearanceFollowSystem": "Comme le système",
+    "appearanceLight": "Clair",
+    "appearanceDark": "Sombre",
+    "appearanceAppliedHint": "Le changement s’applique tout de suite dans cette fenêtre.",
+    "tabBarPositionSection": "Barre des boîtes mail",
+    "tabBarTop": "En haut",
+    "tabBarSide": "Sur le côté",
+    "tabBarHint": "Une seule barre de boîtes : onglets en haut ou colonne à côté du courrier, pas les deux."
+  }
+}

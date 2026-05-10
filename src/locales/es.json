@@ -1,0 +1,68 @@
+{
+  "providers": {
+    "gmail": { "name": "Gmail" },
+    "outlook": { "name": "Outlook" },
+    "icloud": { "name": "iCloud Mail" },
+    "yahoo": { "name": "Yahoo Mail" }
+  },
+  "app": {
+    "customAccountFallbackName": "Cuenta personalizada"
+  },
+  "menu": {
+    "learnMore": "Más información",
+    "advanced": "Avanzado"
+  },
+  "ui": {
+    "settingsTooltip": "Ajustes",
+    "idPrefix": "ID",
+    "mailTablistLabel": "Buzones",
+    "unreadAbbrev": "{n} sin leer"
+  },
+  "settings": {
+    "accounts": "Cuentas",
+    "add": "Añadir",
+    "addAccountTitle": "Añadir cuenta",
+    "customAccountCardTitle": "Cuenta personalizada",
+    "customAccountCardSubtitle": "Añade tu propio correo web",
+    "customAccountHeading": "Cuenta personalizada",
+    "accountName": "Nombre de la cuenta",
+    "accountNamePlaceholder": "Mi cuenta de correo",
+    "url": "URL",
+    "urlPlaceholder": "https://…",
+    "iconLabel": "Icono (Iconify)",
+    "iconHint": "p. ej. mdi:email, simple-icons:gmail, mdi:account…",
+    "color": "Color",
+    "create": "Crear",
+    "back": "Volver",
+    "missingNameOrUrlAlert": "Introduce el nombre de la cuenta y la URL.",
+    "settingsTitle": "Ajustes",
+    "customDisplayName": "Nombre visible",
+    "customDisplayNameHint": "Déjalo vacío para usar el nombre por defecto.",
+    "resetColor": "Restablecer",
+    "customUrl": "URL personalizada",
+    "customUrlPlaceholder": "https://…",
+    "customUrlHintNoUrl": "Déjalo vacío para la URL predeterminada.",
+    "customUrlHintWithUrl": "Déjalo vacío para la URL predeterminada: {url}",
+    "deleteAccount": "Eliminar esta cuenta",
+    "confirmDelete": "¿Seguro que quieres eliminar esta cuenta?",
+    "unknownProvider": "Esta cuenta hace referencia a un proveedor desconocido (ID {id}).",
+    "generalSectionTitle": "General",
+    "languageSection": "Idioma",
+    "languageFollowSystem": "Usar idioma del sistema",
+    "languageEnglish": "English",
+    "languageGerman": "Deutsch",
+    "languageFrench": "Français",
+    "languageSpanish": "Español",
+    "languageAppliedHint": "La ventana se recarga automáticamente al cambiar.",
+    "shellSidebarLabel": "Cuentas y barra lateral",
+    "appearanceSection": "Apariencia",
+    "appearanceFollowSystem": "Igual que el sistema",
+    "appearanceLight": "Claro",
+    "appearanceDark": "Oscuro",
+    "appearanceAppliedHint": "Se aplica al instante en esta ventana.",
+    "tabBarPositionSection": "Barra de buzones",
+    "tabBarTop": "Arriba",
+    "tabBarSide": "Al lado",
+    "tabBarHint": "Solo una barra de buzones: arriba en pestañas o en columna junto al correo; no las dos."
+  }
+}

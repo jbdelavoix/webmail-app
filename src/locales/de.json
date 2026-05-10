@@ -1,0 +1,68 @@
+{
+  "providers": {
+    "gmail": { "name": "Gmail" },
+    "outlook": { "name": "Outlook" },
+    "icloud": { "name": "iCloud Mail" },
+    "yahoo": { "name": "Yahoo Mail" }
+  },
+  "app": {
+    "customAccountFallbackName": "Benutzerdefiniertes Konto"
+  },
+  "menu": {
+    "learnMore": "Mehr erfahren",
+    "advanced": "Erweitert"
+  },
+  "ui": {
+    "settingsTooltip": "Einstellungen",
+    "idPrefix": "ID",
+    "mailTablistLabel": "Postfächer",
+    "unreadAbbrev": "{n} ungelesen"
+  },
+  "settings": {
+    "accounts": "Konten",
+    "add": "Hinzufügen",
+    "addAccountTitle": "Konto hinzufügen",
+    "customAccountCardTitle": "Benutzerdefiniertes Konto",
+    "customAccountCardSubtitle": "Eigenen Webmail-Link hinzufügen",
+    "customAccountHeading": "Benutzerdefiniertes Konto",
+    "accountName": "Kontoname",
+    "accountNamePlaceholder": "Mein E-Mail-Konto",
+    "url": "URL",
+    "urlPlaceholder": "https://…",
+    "iconLabel": "Symbol (Iconify-ID)",
+    "iconHint": "z. B. mdi:email, simple-icons:gmail, mdi:account…",
+    "color": "Farbe",
+    "create": "Anlegen",
+    "back": "Zurück",
+    "missingNameOrUrlAlert": "Bitte Kontonamen und URL ausfüllen.",
+    "settingsTitle": "Einstellungen",
+    "customDisplayName": "Anzeigename",
+    "customDisplayNameHint": "Leer lassen für den Standardnamen.",
+    "resetColor": "Zurücksetzen",
+    "customUrl": "Benutzerdefinierte URL",
+    "customUrlPlaceholder": "https://…",
+    "customUrlHintNoUrl": "Leer lassen für die Standard-URL.",
+    "customUrlHintWithUrl": "Leer lassen für die Standard-URL: {url}",
+    "deleteAccount": "Dieses Konto löschen",
+    "confirmDelete": "Dieses Konto wirklich löschen? Dies lässt sich nicht rückgängig machen.",
+    "unknownProvider": "Dieses Konto verweist auf einen unbekannten Anbieter (ID {id}).",
+    "generalSectionTitle": "Allgemein",
+    "languageSection": "Sprache",
+    "languageFollowSystem": "Systemeinstellungen verwenden",
+    "languageEnglish": "English",
+    "languageGerman": "Deutsch",
+    "languageFrench": "Français",
+    "languageSpanish": "Español",
+    "languageAppliedHint": "Nach der Änderung wird das Fenster automatisch neu geladen.",
+    "shellSidebarLabel": "Konten und Seitenleiste",
+    "appearanceSection": "Erscheinungsbild",
+    "appearanceFollowSystem": "Systemeinstellung",
+    "appearanceLight": "Hell",
+    "appearanceDark": "Dunkel",
+    "appearanceAppliedHint": "Wird in diesem Fenster sofort angewendet.",
+    "tabBarPositionSection": "Postfach-Leiste",
+    "tabBarTop": "Oben",
+    "tabBarSide": "Seitlich",
+    "tabBarHint": "Nur eine Postfach-Leiste: oben als Tabs oder seitlich neben dem Mailbereich — nicht beides."
+  }
+}
