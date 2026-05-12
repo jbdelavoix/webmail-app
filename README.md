@@ -1,8 +1,16 @@
-# Mail
+# Webmail
 
 Desktop client for juggling **multiple webmail accounts in a single window**, built with [Electron](https://www.electronjs.org/).
 
-The user-facing product name is **Mail** (`productName` in [`package.json`](package.json)); the npm package in this repo is **webmail-app**.
+The user-facing app name is **Webmail** (`productName` in [`package.json`](package.json)). The npm package name for this repository is **`webmail-app`**.
+
+## Screenshots
+
+Representative UI (dark shell); replace with your own captures if you publish marketing material.
+
+| Main workspace (account tabs + webmail) | Settings |
+| --- | --- |
+| ![Webmail main workspace](docs/screenshots/readme-webmail-main.png) | ![Webmail settings](docs/screenshots/readme-webmail-settings.png) |
 
 ## Features
 
@@ -12,14 +20,16 @@ The user-facing product name is **Mail** (`productName` in [`package.json`](pack
 - **Light / dark shell** aligned with system `prefers-color-scheme` (CDN-free: bundled Tailwind + local Iconify runtime).
 - **Internationalization**: `en`, `de`, `fr`, `es` JSON packs under [`src/locales/`](src/locales/). Detection uses Electron’s **`getPreferredSystemLanguages()`** plus **`app.getLocale()`**, with **English fallback** for anything else.
 - **Language override**: in **Settings → Language**, choose *system* or force a locale; preference is saved in `preferences.json` under the OS user-data folder for the app, and windows reload automatically.
-- **macOS**: `hiddenInset` title bar; Dock / window raster icons; Dock badge estimating **aggregate** unread count when providers put counts in tab titles (**heuristic**, not universal across webmails).
+- **macOS**: `hiddenInset` title bar; in **development** (`electron .`), a single **`build/icons/icon.png`** (else fallback **`build/icon.icns`**) for window + Dock — a **packaged `.app`** uses the bundle icon (`Assets.car` / `.icon`) with no runtime Dock override.
 
 **Not shipped:** OS-level push notifications for new mail — only the heuristic Dock badge applies.
 
 ## Requirements
 
-- [Node.js](https://nodejs.org/) (recommended: current **LTS**)
+- [Node.js](https://nodejs.org/) **20+** (LTS recommended; see `engines` in [`package.json`](package.json))
 - npm
+
+The repository includes a committed **`package-lock.json`**. For reproducible installs in CI or on a clean machine, prefer **`npm ci`** after clone.
 
 ## Development
 
@@ -42,13 +52,22 @@ After editing Tailwind class names in HTML/JS, refresh assets with **`npm run bu
 
 ## Building for distribution
 
-Scripts use [electron-builder](https://www.electron.build/), matching the `build` block in [`package.json`](package.json):
+Scripts use [electron-builder](https://www.electron.build/). Configuration lives in [`electron-builder.js`](electron-builder.js) at the repo root (not in `package.json`).
 
-- **`npm run dist`** / **`npm run dist:mac`** — macOS (universal, per config)
-- **`npm run dist:win`** — Windows (NSIS + zip targets in config)
-- **`npm run dist:linux`** — Linux (AppImage, deb, rpm, etc.)
+| Script | Purpose |
+| --- | --- |
+| **`npm run dist`** | Builds for the **current OS only** (plain `electron-builder`). |
+| **`npm run dist:mac`**, **`dist:win`**, **`dist:linux`** | One platform at a time (used by CI). |
+| **`npm run dist:all`** | macOS + Windows + Linux in one invocation — only practical when the host has the required toolchains (often a fully set-up macOS machine). |
 
-Bundled branding: [`build/`](build/) (`.icns` on macOS, `build/icons/*.png` for Dock / raster window icons). On macOS only, `.icns` is preferred for `BrowserWindow` when present.
+Bundled branding assets live under [`build/`](build/). For macOS packaging:
+
+- If **`build/icon.icon`** exists **and** `xcrun actool --version` reports **major ≥ 26** (Xcode 26+), it is used as **`mac.icon`** so electron-builder can compile **`Assets.car`**. On older toolchains (e.g. current GitHub `macos-latest`), **`mac.icon`** automatically falls back to **`build/icon.icns`**.
+- If there is no **`build/icon.icon`** directory, **`mac.icon`** is **`build/icon.icns`**.
+
+The **`dmg`** volume icon stays **`build/icon.icns`** (electron-builder does not inherit `.icon` for DMG artwork).
+
+In development, [`src/main.js`](src/main.js) loads **`build/icons/icon.png`** (fallback **`build/icon.icns`** on macOS) for the window and Dock only when **`!app.isPackaged`**. Packaged builds use the app bundle icon only.
 
 Windows builds set **`verifyUpdateCodeSignature`** to **`false`** in packager config — turn this **on** and sign installers when you ship signed releases so auto-update tooling can enforce signatures.
 
@@ -62,19 +81,25 @@ External windows opened via `window.open` are only honoured for **`http:`** / **
 
 Keeping **`nodeIntegration: false`** + **`contextIsolation: true`** in the renderer is intentional. Embedded mail UIs remain third-party code — treat credential hygiene like a normal browser (password manager / screen lock).
 
+For reporting security issues, see [`SECURITY.md`](SECURITY.md).
+
+## Releases & CI
+
+Pushing a **git tag** runs [`.github/workflows/release.yml`](.github/workflows/release.yml): install dependencies, run **`yarn dist`** on a single macOS runner, then upload the packaged artifacts to a **[GitHub Release](https://github.com/jbdelavoix/webmail-app/releases)** for that tag. The build script passes **`--publish=never`** so `electron-builder` still builds artifacts but does not try to push to GitHub itself (no **`GH_TOKEN`** required for the build step).
+
+Apple **notarization** / Microsoft **Authenticode** signing are not automated here; add secrets and builder options when you ship signed installers (see also **`verifyUpdateCodeSignature`** in [`electron-builder.js`](electron-builder.js)).
+
 ## Downloads
 
 Artifacts (if published) appear on **[Releases — latest](https://github.com/jbdelavoix/webmail-app/releases/latest)** (see [`homepage`](https://github.com/jbdelavoix/webmail-app) in `package.json`).
 
 ## Testing
 
-Automated **`node:test`** suites live under [`test/`](test/). Today this includes [`test/i18n.test.js`](test/i18n.test.js) exercising [`src/i18n.js`](src/i18n.js). Run:
+Automated **`node:test`** files live under [`test/`](test/) as **`*.test.js`** (e.g. [`test/i18n.test.js`](test/i18n.test.js), [`test/preferences.test.js`](test/preferences.test.js)). Run:
 
 ```bash
 npm test
 ```
-
-(Add more files with the `*.test.js` naming convention and extend the `test` script in `package.json` if you introduce additional suites.)
 
 ## License
 

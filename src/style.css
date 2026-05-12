@@ -1,14 +1,20 @@
 /**
- * Drag-to-move window on chrome chrome area; interactive children must opt out.
- * On macOS, `pointer-events: none` on the drag strip avoids hover/focus issues on
- * descendants so tab labels (shown on hover) update reliably.
+ * Drag-to-move window on chrome; interactive children must use `no-drag`.
+ * `pointer-events: none` on `#chrome-root` lets hits reach children with `auto`.
+ * The tab bar itself stays `drag` so padding and empty flex space (especially in
+ * the vertical rail under the traffic lights) move the window; only each tab
+ * and the settings control opt out.
  */
 #chrome-root {
   -webkit-app-region: drag;
   pointer-events: none;
 }
 
-#account-tab-bar,
+#account-tab-bar {
+  pointer-events: auto;
+  -webkit-app-region: drag;
+}
+
 .account-tab-button,
 .chrome-settings-btn,
 #settings-btn {

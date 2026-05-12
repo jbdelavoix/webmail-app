@@ -598,7 +598,6 @@ const TopAccountBar = {
         ? "focus-visible:ring-offset-slate-950"
         : "focus-visible:ring-offset-white";
 
-      const pinOpen = isMailActive;
       const tipPlacement = vertical ? "side" : "below";
 
       if (vertical) {
@@ -673,35 +672,22 @@ const TopAccountBar = {
         layoutAccountTabTooltip(tab, tip, tipPlacement);
       };
       const hideTip = () => {
-        if (!pinOpen) {
-          tip.style.opacity = "0";
-          tip.style.visibility = "hidden";
-        }
-      };
-
-      if (pinOpen) {
-        tip.style.opacity = "1";
-        tip.style.visibility = "visible";
-      } else {
         tip.style.opacity = "0";
         tip.style.visibility = "hidden";
-      }
+      };
+
+      tip.style.opacity = "0";
+      tip.style.visibility = "hidden";
 
       tab.appendChild(row);
       tab.appendChild(tip);
 
-      if (pinOpen) {
-        requestAnimationFrame(() => layoutAccountTabTooltip(tab, tip, tipPlacement));
-      }
-
-      if (!pinOpen) {
-        tab.addEventListener("mouseenter", showTip);
-        tab.addEventListener("mouseleave", hideTip);
-        tab.addEventListener("focusin", showTip);
-        tab.addEventListener("focusout", (ev) => {
-          if (!tab.contains(ev.relatedTarget)) hideTip();
-        });
-      }
+      tab.addEventListener("mouseenter", showTip);
+      tab.addEventListener("mouseleave", hideTip);
+      tab.addEventListener("focusin", showTip);
+      tab.addEventListener("focusout", (ev) => {
+        if (!tab.contains(ev.relatedTarget)) hideTip();
+      });
 
       bar.appendChild(tab);
     });

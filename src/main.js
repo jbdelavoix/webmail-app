@@ -60,89 +60,34 @@ ipcMain.on("i18n:get-bundle", (event) => {
 
 let mainWindow = null;
 
+/** macOS: distinguish red-close (hide) from real quit (Cmd+Q / menu Quit). */
+let isAppQuitting = false;
+
+app.on("before-quit", () => {
+  isAppQuitting = true;
+});
+
 const BUILD_ASSETS = path.join(__dirname, "..", "build");
 
-function rasterIconDir() {
-  return path.join(BUILD_ASSETS, "icons");
-}
+/**
+ * Window / Dock raster used only in development (`electron .`).
+ * Packaged apps rely on `CFBundleIconName` / Assets.car — avoid overriding Dock.
+ */
+function loadDevIconImage() {
+  const candidates = [
+    path.join(BUILD_ASSETS, "icons", "icon.png"),
+    process.platform === "darwin" ? path.join(BUILD_ASSETS, "icon.icns") : null,
+    process.platform === "win32" ? path.join(BUILD_ASSETS, "icon.ico") : null,
+  ].filter((p) => typeof p === "string");
 
-function loadBundledIconImage(candidatePath) {
-  if (
-    typeof candidatePath !== "string" ||
-    candidatePath.length === 0 ||
-    !fs.existsSync(candidatePath)
-  ) {
-    return null;
-  }
-  try {
-    const img = nativeImage.createFromPath(candidatePath);
-    return img.isEmpty() ? null : img;
-  } catch {
-    return null;
-  }
-}
-
-/** Icons loadable by BrowserWindow (PNG preferred — some .icns variants throw at runtime). */
-function bundledWindowIconCandidates() {
-  const isDark = nativeTheme.shouldUseDarkColors;
-  const rasterDir = rasterIconDir();
-  const pngThemed = path.join(rasterDir, isDark ? "icon-dark.png" : "icon.png");
-  const pngLight = path.join(rasterDir, "icon.png");
-  const pngDark = path.join(rasterDir, "icon-dark.png");
-
-  /** @type {string[]} */
-  const ordered = [pngThemed];
-
-  if (pngThemed !== pngLight) ordered.push(pngLight);
-  if (pngThemed !== pngDark && pngLight !== pngDark) ordered.push(pngDark);
-
-  if (process.platform === "darwin") {
-    ordered.push(path.join(BUILD_ASSETS, isDark ? "icon-dark.icns" : "icon.icns"));
-    ordered.push(path.join(BUILD_ASSETS, "icon.icns"));
-  } else if (process.platform === "win32") {
-    ordered.push(path.join(BUILD_ASSETS, "icon.ico"));
-  }
-
-  const seen = new Set();
-  return ordered.filter((p) => {
-    if (!p || seen.has(p)) return false;
-    seen.add(p);
-    return true;
-  });
-}
-
-function getBundledWindowIconImage() {
-  for (const candidate of bundledWindowIconCandidates()) {
-    const img = loadBundledIconImage(candidate);
-    if (img !== null) return img;
-  }
-  return null;
-}
-
-function dockIconImageCandidates() {
-  const isDark = nativeTheme.shouldUseDarkColors;
-  const rasterDir = rasterIconDir();
-  const pngThemed = path.join(rasterDir, isDark ? "icon-dark.png" : "icon.png");
-  const pngFallback = path.join(rasterDir, "icon.png");
-  const pngDarkFallback = path.join(rasterDir, "icon-dark.png");
-
-  /** @type {string[]} */
-  const ordered = [pngThemed];
-  if (pngThemed !== pngFallback) ordered.push(pngFallback);
-  if (pngFallback !== pngDarkFallback) ordered.push(pngDarkFallback);
-
-  const seen = new Set();
-  return ordered.filter((p) => {
-    if (!p || seen.has(p)) return false;
-    seen.add(p);
-    return true;
-  });
-}
-
-function getDockIconImage() {
-  for (const candidate of dockIconImageCandidates()) {
-    const img = loadBundledIconImage(candidate);
-    if (img !== null) return img;
+  for (const p of candidates) {
+    if (!fs.existsSync(p)) continue;
+    try {
+      const img = nativeImage.createFromPath(p);
+      if (!img.isEmpty()) return img;
+    } catch {
+      // ignore
+    }
   }
   return null;
 }
@@ -168,26 +113,6 @@ function addMenu(platform) {
     Menu.setApplicationMenu(menu);
   } else {
     Menu.setApplicationMenu(null);
-  }
-}
-
-function updateDockIcon() {
-  try {
-    if (process.platform === "darwin" && app.dock) {
-      const dockImg = getDockIconImage();
-      if (dockImg !== null) app.dock.setIcon(dockImg);
-    }
-  } catch {
-    // ignore malformed / unreadable raster assets (dev sandboxes, bad exports, etc.)
-  }
-
-  try {
-    if (mainWindow) {
-      const winImg = getBundledWindowIconImage();
-      if (winImg !== null) mainWindow.setIcon(winImg);
-    }
-  } catch {
-    // ignore
   }
 }
 
@@ -294,6 +219,10 @@ function setupMailIpc() {
   });
 
   ipcMain.on("contextmenu:open", function (_event, x, y) {
+    const advancedSubmenu = [{ role: "reload" }];
+    if (!app.isPackaged) {
+      advancedSubmenu.push({ role: "toggleDevTools" });
+    }
     const ctx = Menu.buildFromTemplate([
       { role: "undo" },
       { role: "redo" },
@@ -304,7 +233,7 @@ function setupMailIpc() {
       { type: "separator" },
       {
         label: tl("menu.advanced"),
-        submenu: [{ role: "reload" }, { role: "toggleDevTools" }],
+        submenu: advancedSubmenu,
       },
     ]);
     ctx.popup({
@@ -316,18 +245,17 @@ function setupMailIpc() {
 }
 
 function createWindow() {
-  updateDockIcon();
+  const devIcon = app.isPackaged ? null : loadDevIconImage();
 
   const darwinChrome =
     process.platform === "darwin" ? { titleBarStyle: "hiddenInset" } : {};
 
-  const browserIcon = getBundledWindowIconImage();
-
   mainWindow = new BrowserWindow({
+    title: typeof PACKAGE.productName === "string" ? PACKAGE.productName : "Webmail",
     width: 1600,
     height: 900,
     ...darwinChrome,
-    icon: browserIcon ?? undefined,
+    icon: devIcon ?? undefined,
     webPreferences: {
       webviewTag: true,
       preload: path.join(__dirname, "preload.js"),
@@ -335,6 +263,14 @@ function createWindow() {
       nodeIntegration: false,
     },
   });
+
+  if (!app.isPackaged && process.platform === "darwin" && app.dock && devIcon) {
+    try {
+      app.dock.setIcon(devIcon);
+    } catch {
+      // ignore
+    }
+  }
 
   mainWindow.webContents.on("dom-ready", () => {
     mainWindow.webContents.insertCSS(
@@ -358,26 +294,19 @@ function createWindow() {
   });
 
   mainWindow.on("close", (event) => {
-    if (process.platform === "darwin") {
+    if (process.platform === "darwin" && !isAppQuitting) {
       event.preventDefault();
       mainWindow.hide();
-    } else {
-      mainWindow = null;
+      return;
     }
+  });
+
+  mainWindow.on("closed", () => {
+    mainWindow = null;
   });
 
   mainWindow.loadFile(path.join(__dirname, "app.html"));
 }
-
-let didRegisterNativeThemeWatch = false;
-
-function ensureDockIconTracksTheme() {
-  if (didRegisterNativeThemeWatch) return;
-  didRegisterNativeThemeWatch = true;
-  nativeTheme.on("updated", () => updateDockIcon());
-}
-
-ensureDockIconTracksTheme();
 
 app.whenReady().then(() => {
   const prefsData = loadPrefs(app);

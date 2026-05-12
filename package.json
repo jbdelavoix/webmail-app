@@ -1,60 +1,21 @@
 {
   "name": "webmail-app",
-  "productName": "Mail",
-  "version": "1.0.0",
-  "description": "A desktop application for mails, built with Electron.",
+  "productName": "Webmail",
+  "version": "1.1.0",
+  "description": "Webmail — desktop client for multiple webmail accounts in one window (Electron).",
   "author": "jbdelavoix <jbdelavoix@users.noreply.github.com> (https://github.com/jbdelavoix)",
   "homepage": "https://github.com/jbdelavoix/webmail-app",
   "license": "MIT",
   "main": "src/main.js",
   "scripts": {
-    "start": "electron .",
-    "test": "node --test test/i18n.test.js",
-    "build:css": "tailwindcss -i ./src/styles/tailwind-input.css -o ./src/vendor/tailwind.css --minify",
+    "test": "node --test \"test/**/*.test.js\"",
     "vendor:sync": "node scripts/sync-vendor-assets.js",
-    "prepare": "node scripts/sync-vendor-assets.js",
-    "dist": "electron-builder --mac",
-    "dist:mac": "electron-builder --mac",
-    "dist:win": "electron-builder --win",
-    "dist:linux": "electron-builder --linux"
+    "dist": "npm run vendor:sync && electron-builder --config electron-builder.js --mac --linux --win --publish=never"
   },
   "devDependencies": {
     "@iconify/iconify": "^3.1.1",
-    "electron": "^33.0.2",
-    "electron-builder": "^25.1.8",
+    "electron": "^39.8.10",
+    "electron-builder": "^26.8.1",
     "tailwindcss": "^3.4.17"
-  },
-  "build": {
-    "artifactName": "${name}-${version}-${os}.${ext}",
-    "files": [
-      "**/*",
-      "build/**/*"
-    ],
-    "appId": "jbdelavoix.webmail-app",
-    "mac": {
-      "target": {
-        "target": "default",
-        "arch": "universal"
-      },
-      "category": "public.app-category.productivity",
-      "darkModeSupport": true
-    },
-    "linux": {
-      "target": [
-        "AppImage",
-        "deb",
-        "rpm",
-        "pacman",
-        "tar.bz2"
-      ],
-      "category": "Network;Office"
-    },
-    "win": {
-      "verifyUpdateCodeSignature": false,
-      "target": [
-        "nsis",
-        "zip"
-      ]
-    }
   }
 }

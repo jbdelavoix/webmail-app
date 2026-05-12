@@ -12,12 +12,16 @@ jobs:
   build:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
       - run: brew install rpm
-      - run: npm install
+      - run: npm ci
+      - run: npm test
       - run: npm run dist
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "dist/*"
+          artifacts: "dist/*.AppImage,dist/*.deb,dist/*.dmg,dist/*.exe,dist/*.rpm,dist/*.tar.bz2,dist/*.zip,dist/*.blockmap,dist/latest*.yml"
           token: ${{ secrets.GITHUB_TOKEN }}
